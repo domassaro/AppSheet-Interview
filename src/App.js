@@ -8,8 +8,10 @@ import Profile from './profile';
 function App() {
   return (
     <div className="App"> 
-      <SearchBar />
-      <Profile />
+      <div className="search-bar">
+        <SearchBar/>
+      </div>
+        <Profile />
     </div>
   );
 }

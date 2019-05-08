@@ -1,12 +1,18 @@
 .App {
   text-align: center;
   background-color: #fef9f2;
+  padding: 20px;
 }
 
 .App-logo {
   animation: App-logo-spin infinite 20s linear;
   height: 40vmin;
   pointer-events: none;
+}
+.search-bar {
+  display: flex;
+  align-items: center;
+  border: solid 1px #bdbdbd;
 }
 
 .App-link {

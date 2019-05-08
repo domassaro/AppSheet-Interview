@@ -5,40 +5,115 @@ class Profile extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      result: []
+      results: []
     };
   }
 
-  componentDidMount() {
-    fetch("https://appsheettest1.azurewebsites.net/sample/detail/2")
-      .then(res => res.json())
-      .then(
-        (result) => {
-          this.setState({
-            isLoaded: true,
-            result: result
-          });
-        },
-        (error) => {
-          this.setState({
-            isLoaded: true,
-            error
-          });
-        }
-      )
+  async fetchProfiles() {
+    let results = await this.fetchAllResults();
+    let profiles = [];
+    for (let i = 0; i < results.length; i++) {
+      let profile = await this.fetchProfile(results[i]);
+      if (profile) {
+        profiles.push(profile);
+      }
+    }
+    return profiles;
   }
 
+  async fetchProfile(profileId) {
+    let url = `https://appsheettest1.azurewebsites.net/sample/detail/${profileId}`;
+    return await fetch(url)
+      .then(res => res.json())
+      .then((res) => {
+        return res;
+      },
+      (error) => {
+        return null;
+      });
+  }
+
+  async fetchAllResults() {
+    let url = 'https://appsheettest1.azurewebsites.net/sample/list';
+    let response = null;
+    let results = [];
+    do {
+        response = await fetch(url)
+        .then(res => res.json())
+        .then((res) => {
+            return res;
+        });
+        results = results.concat(response.result);
+        if (response.token) {
+            let newUrl = new URL(url);
+            newUrl.searchParams.set('token', response.token)
+            url = newUrl.toString();
+        }
+    } while (response.token);
+    return results;
+  }
+
+  async componentDidMount() {
+    this.setState ({
+      results: await this.fetchProfiles(),
+      isLoaded: true
+    });
+  }  
+
   render() {
-    const { error, isLoaded, result } = this.state;
+    const { error, isLoaded, results } = this.state;
     if (error) {
       return <div>Error: {error.message}</div>;
     } else if (!isLoaded) {
       return <div>Loading...</div>;
     } else {
       return (
-        <ul>
-          {result.name}
-        </ul>
+  
+        <div>
+          <style jsx>{`
+            .container {
+              padding-top: 20px;
+              padding-bottom: 20px;
+              text-align: center;
+            }
+            .profile-container {
+              position: relative;
+              -webkit-box-shadow: 0 5px 10px 0 rgba(0,0,0,0.05);
+              box-shadow: 0 5px 10px 0 rgba(0,0,0,0.05);
+              overflow: hidden;
+              width: 250px;
+              background-color: white;
+              height: 300px;
+              margin: 10px;
+              display: inline-block;
+            }
+            h2, p {
+              text-transform: uppercase;
+              font-weight: normal;
+              font-size: 13px;
+              line-height: 20px;
+              color: #000;
+              letter-spacing: 1.5px;
+              margin: 0;
+              padding: 0;
+              font-size: 13px;
+            }
+          `}</style>
+
+          <div className="container">
+
+            {results.map((result) => {
+              return (<div key={result} className="profile-container">
+                {/* Profiles without valid U.S. phone numbers should not be displayed */}
+                {result.number.length > 4 && <div>
+                  <img src={result.photo} width="150" height="150" alt="Photo" />
+                  <h2>{result.name.toUpperCase()}</h2>
+                  <p>{result.number}</p>
+                </div>}
+              </div>);
+            })}
+          </div>
+        </div>
       );
     }
   }

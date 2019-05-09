@@ -29,6 +29,13 @@ class SearchBar extends React.Component {
       )
   }
 
+  search(text) {	
+    let results = [];	
+    results.filter(result => {	
+        return result.name.startsWith(text);	
+    })	
+  }
+
   render() {
     const { error, isLoaded, result } = this.state;
       return (
@@ -109,10 +116,7 @@ class SearchBar extends React.Component {
             <button
               type="submit"
               value="Submit"
-              disabled={
-                !this.state.searchTerm || this.state.searchTerm.length == 0
-              }
-            >
+              disabled={!this.state.searchTerm || this.state.searchTerm.length == 0} >
               <div className="search-icon">
                 <img src={search} />
               </div>

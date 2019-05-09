@@ -3,8 +3,6 @@ import './App.css';
 import SearchBar from './searchBar';
 import Profile from './profile';
 
-
-
 function App() {
   return (
     <div className="App"> 

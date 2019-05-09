@@ -82,8 +82,9 @@ class Profile extends React.Component {
               box-shadow: 0 5px 10px 0 rgba(0,0,0,0.05);
               overflow: hidden;
               width: 250px;
+              padding: 15px;
               background-color: white;
-              height: 300px;
+              height: 100%;
               margin: 10px;
               display: inline-block;
             }
@@ -96,7 +97,12 @@ class Profile extends React.Component {
               letter-spacing: 1.5px;
               margin: 0;
               padding: 0;
+            }
+            .bio-text {
               font-size: 13px;
+            }
+            .info-wrapper {
+              border: 1px red solid;
             }
           `}</style>
 
@@ -107,8 +113,14 @@ class Profile extends React.Component {
                 {/* Profiles without valid U.S. phone numbers should not be displayed */}
                 {result.number.length > 4 && <div>
                   <img src={result.photo} width="150" height="150" alt="Photo" />
-                  <h2>{result.name.toUpperCase()}</h2>
-                  <p>{result.number}</p>
+                  <div className="info-wrapper">
+                    <h2>{result.name.toUpperCase()}</h2>
+                    <p>{result.age}</p>
+                    <p>{result.number}</p>
+                    <div className="bio-text">
+                      {result.bio}
+                    </div>
+                  </div>
                 </div>}
               </div>);
             })}

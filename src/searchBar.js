@@ -1,12 +1,13 @@
 import React from 'react';
 import './App.css';
-import search from './search.svg';
+import searchIcon from './searchIcon.svg';
 
 class SearchBar extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      result: []
+      result: [],
+      isLoaded: false
     };
   }
 
@@ -110,7 +111,7 @@ class SearchBar extends React.Component {
               name="q"
               defaultValue={this.props.queryTerm || ""}
               placeholder={"Who are you looking for?"}
-              onChange={this.handleChange}
+              onChange={this.search}
               // onFocus={() => this.props.toggleResultView(true)}
             />
             <button
@@ -118,7 +119,7 @@ class SearchBar extends React.Component {
               value="Submit"
               disabled={!this.state.searchTerm || this.state.searchTerm.length == 0} >
               <div className="search-icon">
-                <img src={search} />
+                <img src={searchIcon} />
               </div>
             </button>
           </form>

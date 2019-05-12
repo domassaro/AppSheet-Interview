@@ -97,9 +97,6 @@ class Profile extends React.Component {
           .bio-text {
             font-size: 13px;
           }
-          .info-wrapper {
-            border: 1px red solid;
-          }
         `}</style>
         <div className="container">
         {!isLoaded && <div>Loading...</div>}

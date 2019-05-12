@@ -61,9 +61,9 @@ class SearchBar extends React.Component {
             #search-bar {
               width: 100%;
               height: 38px;
-              padding: 15px 10px;
+              padding: 0px 10px;
               font-size: 14px;
-              border-radius: 2px;
+              border-radius: 1px;
               letter-spacing: 0;
             }
             button[type="submit"]:hover {
@@ -74,8 +74,8 @@ class SearchBar extends React.Component {
               position: absolute;
               top: 0;
               right: 0;
-              width: 38px;
-              height: 38px;
+              width: 43px;
+              height: 43px;
               border-radius: 0 2px 2px 0;
               background-color: #77be43;
               line-height: 42px;
@@ -90,13 +90,14 @@ class SearchBar extends React.Component {
             }
             @media screen and (min-width: 1025px) {
               #search-bar {
+                border-radius: 0px;
+                padding: 15px 10px;
                 height: 20px;
                 font-size: 18px;
-                padding: 25px 30px;
               }
               button[type="submit"] {
-                width: 52px;
-                height: 52px;
+                width: 54px;
+                height: 54px;
                 line-height: 64px;
               }
               .search-icon img {

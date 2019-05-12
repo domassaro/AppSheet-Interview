@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
-import SearchBar from './searchBar';
-import Profile from './profile';
+import SearchBar from './components/searchBar';
+import Profile from './components/profile';
 
 function App() {
   return (

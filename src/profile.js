@@ -62,72 +62,64 @@ class Profile extends React.Component {
 
   render() {
     const { error, isLoaded, results } = this.state;
-    if (error) {
-      return <div>Error: {error.message}</div>;
-    } else if (!isLoaded) {
-      return <div>Loading...</div>;
-    } else {
-      return (
-  
-        <div>
-          <style jsx>{`
-            .container {
-              padding-top: 20px;
-              padding-bottom: 20px;
-              text-align: center;
-            }
-            .profile-container {
-              position: relative;
-              -webkit-box-shadow: 0 5px 10px 0 rgba(0,0,0,0.05);
-              box-shadow: 0 5px 10px 0 rgba(0,0,0,0.05);
-              overflow: hidden;
-              width: 250px;
-              padding: 15px;
-              background-color: white;
-              height: 100%;
-              margin: 10px;
-              display: inline-block;
-            }
-            h2, p {
-              text-transform: uppercase;
-              font-weight: normal;
-              font-size: 13px;
-              line-height: 20px;
-              color: #000;
-              letter-spacing: 1.5px;
-              margin: 0;
-              padding: 0;
-            }
-            .bio-text {
-              font-size: 13px;
-            }
-            .info-wrapper {
-              border: 1px red solid;
-            }
-          `}</style>
-
-          <div className="container">
-
-            {results.map((result) => {
-              return (<div key={result} className="profile-container">
-                {/* Profiles without valid U.S. phone numbers should not be displayed */}
-                {result.number.length > 4 && <div>
-                  <img src={result.photo} width="150" height="150" alt="Photo" />
-                  <div className="info-wrapper">
-                    <h2>{result.name.toUpperCase()}</h2>
-                    <p>{result.age}</p>
-                    <p>{result.number}</p>
-                    <div className="bio-text">
-                      {result.bio}
-                    </div>
+    /* Profiles without valid U.S. phone numbers should not be displayed */
+    const filteredResults = results.filter(r => r.number.length > 4 );
+    return (
+      <div>
+        <style jsx>{`
+          .container {
+            padding-top: 20px;
+            padding-bottom: 20px;
+            text-align: center;
+          }
+          .profile-container {
+            position: relative;
+            -webkit-box-shadow: 0 5px 10px 0 rgba(0,0,0,0.05);
+            box-shadow: 0 5px 10px 0 rgba(0,0,0,0.05);
+            overflow: hidden;
+            width: 250px;
+            padding: 15px;
+            background-color: white;
+            height: 100%;
+            margin: 10px;
+            display: inline-block;
+          }
+          h2, p {
+            text-transform: uppercase;
+            font-weight: normal;
+            font-size: 13px;
+            line-height: 20px;
+            color: #000;
+            letter-spacing: 1.5px;
+            margin: 0;
+            padding: 0;
+          }
+          .bio-text {
+            font-size: 13px;
+          }
+          .info-wrapper {
+            border: 1px red solid;
+          }
+        `}</style>
+        <div className="container">
+        {!isLoaded && <div>Loading...</div>}
+        {error && <div>Error: {error.message}</div>}
+          {isLoaded && !error && filteredResults.map(result => (<div key={result} className="profile-container">
+          {<div>
+                <img src={result.photo} width="150" height="150" alt="Photo" />
+                <div className="info-wrapper">
+                  <h2>{result.name.toUpperCase()}</h2>
+                  <p>{result.age}</p>
+                  <p>{result.number}</p>
+                  <div className="bio-text">
+                    {result.bio}
                   </div>
-                </div>}
-              </div>);
-            })}
-          </div>
+                </div>
+              </div>}
+            </div>))}
         </div>
-      );
-    }
+      </div>
+    );
   }
 }
 

@@ -30,10 +30,10 @@ class SearchBar extends React.Component {
       )
   }
 
-  search(text) {	
+  search(event) {	
     let results = [];	
     results.filter(result => {	
-        return result.name.startsWith(text);	
+      return result.name.startsWith(event.target.value);	
     })	
   }
 

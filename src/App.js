@@ -26,10 +26,6 @@ class App extends Component {
           `}</style>
 
           <div className="container">
-            {/* <Sidebar handleRandomClick={(e) => this.handleRandomClick(e)}
-              getColor={(color) => this.getColor(color)}
-              getAll={this.allColors}
-             /> */}
             {/* <div className="color-content">
               {this.colorStore.getCurrentColor() && 
               <DetailView clear={this.clearColor} 

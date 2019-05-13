@@ -67,12 +67,21 @@ class Profile extends React.Component {
     return (
       <div>
         <style jsx>{`
+          @keyframes slideInFromLeft {
+            0% {
+              transform: translateX(-100%);
+            }
+            100% {
+              transform: translateX(0);
+            }
+          }
           .container {
             padding-top: 20px;
             padding-bottom: 20px;
             text-align: center;
           }
           .profile-container {
+            animation: 1.4s ease-out 0s 1 slideInFromLeft;
             position: relative;
             -webkit-box-shadow: 0 5px 10px 0 rgba(0,0,0,0.05);
             box-shadow: 0 5px 10px 0 rgba(0,0,0,0.05);

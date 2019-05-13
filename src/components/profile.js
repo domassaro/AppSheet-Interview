@@ -86,7 +86,7 @@ class Profile extends React.Component {
             -webkit-box-shadow: 0 5px 10px 0 rgba(0,0,0,0.05);
             box-shadow: 0 5px 10px 0 rgba(0,0,0,0.05);
             overflow: hidden;
-            width: 250px;
+            width: 350px;
             padding: 15px;
             background-color: white;
             height: 100%;
@@ -105,24 +105,57 @@ class Profile extends React.Component {
           }
           .bio-text {
             font-size: 13px;
+            width: 65%;
+            padding-left: 8px;
+          }
+          .flip-card-inner {
+            position: relative;
+            width: 100%;
+            min-height: 250px;
+            text-align: center;
+            transition: transform 0.8s;
+            transform-style: preserve-3d;
+          }
+          
+          /* Do an horizontal flip when you move the mouse over the flip box container */
+          .profile-container:hover .flip-card-inner {
+            transform: rotateY(180deg);
+          }
+          
+          /* Position the front and back side */
+          .flip-card-front, .flip-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+          }   
+          .flip-card-back {
+            transform: rotateY(180deg);
           }
         `}</style>
         <div className="container">
         {!isLoaded && <div>Loading...</div>}
         {error && <div>Error: {error.message}</div>}
           {isLoaded && !error && filteredResults.map(result => (<div key={result} className="profile-container">
-          {<div>
-                <img src={result.photo} width="150" height="150" alt="Photo" />
-                <div className="info-wrapper">
+            {<div className="flip-card-inner">
+              <div className="flip-card-front">
+                <img src={result.photo} width="250px" height="250px" alt="Photo" />
+              </div>
+              <div className="flip-card-back">
+                <div>
                   <h2>{result.name.toUpperCase()}</h2>
                   <p>{result.age}</p>
                   <p>{result.number}</p>
-                  <div className="bio-text">
-                    {result.bio}
-                  </div>
                 </div>
-              </div>}
-            </div>))}
+                <div className="bio-text">
+                  {result.bio}
+                </div>
+              </div>
+            </div>}
+          </div>))}
         </div>
       </div>
     );

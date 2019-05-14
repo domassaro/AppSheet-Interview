@@ -60,6 +60,11 @@ class Profile extends React.Component {
     });
   }  
 
+  /* Profiles without working images will get default image */
+  addDefaultSrc(ev){
+    ev.target.src = 'https://i.stack.imgur.com/l60Hf.png'
+  }
+
   render() {
     const { error, isLoaded, results } = this.state;
     /* Profiles without valid U.S. phone numbers should not be displayed */
@@ -152,7 +157,7 @@ class Profile extends React.Component {
           {isLoaded && !error && filteredResults.map(result => (<div key={result} className="profile-container">
             {<div className="flip-card-inner">
               <div className="flip-card-front">
-                <img src={result.photo} width="250px" height="250px" alt="Photo" />
+                <img onError={this.addDefaultSrc} src={result.photo} width="250px" height="250px" alt="Photo" />
                 <div className="text-container">
                   <h2>{result.name.toUpperCase()}, {result.age}</h2>
                   <p className="number-container">{result.number}</p>

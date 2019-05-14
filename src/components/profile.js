@@ -1,156 +1,84 @@
 import React from 'react';
-import '../App.css';
+import '../styles/App.css';
+import searchIcon from '../icons/searchIcon.svg';
 
 class Profile extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      results: []
+      results: this.props.results,
+      filtered: this.props.results,
+      isLoaded: false,
+      searchTerm: null
     };
-  }
-
-  async fetchProfiles() {
-    let results = await this.fetchAllResults();
-    let profiles = [];
-    for (let i = 0; i < results.length; i++) {
-      let profile = await this.fetchProfile(results[i]);
-      if (profile) {
-        profiles.push(profile);
-      }
-    }
-    return profiles;
-  }
-
-  async fetchProfile(profileId) {
-    let url = `https://appsheettest1.azurewebsites.net/sample/detail/${profileId}`;
-    return await fetch(url)
-      .then(res => res.json())
-      .then((res) => {
-        return res;
-      },
-      (error) => {
-        return null;
-      });
-  }
-
-  async fetchAllResults() {
-    let url = 'https://appsheettest1.azurewebsites.net/sample/list';
-    let response = null;
-    let results = [];
-    do {
-        response = await fetch(url)
-        .then(res => res.json())
-        .then((res) => {
-            return res;
-        });
-        results = results.concat(response.result);
-        if (response.token) {
-            let newUrl = new URL(url);
-            newUrl.searchParams.set('token', response.token)
-            url = newUrl.toString();
-        }
-    } while (response.token);
-    return results;
+    this.search = this.search.bind(this);
   }
 
   async componentDidMount() {
     this.setState ({
-      results: await this.fetchProfiles(),
+      filtered: this.props.results,
       isLoaded: true
     });
   }  
+
+  componentDidUpdate(oldProps) {
+    const newProps = this.props
+    if(oldProps.results !== newProps.results) {
+      this.setState({ 
+        filtered: this.props.results,
+        results: this.props.results,
+       })
+    }
+  }
 
   /* Profiles without working images will get default image */
   addDefaultSrc(ev){
     ev.target.src = 'https://i.stack.imgur.com/l60Hf.png'
   }
 
+  search(event) {	
+    let results = [];	
+    let searchTerm = event.target.value;
+    if (searchTerm.length > 0) {
+      results = this.props.results.filter(result => {	
+        return result.name.startsWith(event.target.value);	
+      });
+      this.setState({
+        filtered: results
+      });
+    } else {
+      this.setState({
+        filtered: this.props.results
+      });
+    }
+  }
+
   render() {
-    const { error, isLoaded, results } = this.state;
+    const { error, isLoaded, results, filtered } = this.state;
     /* Profiles without valid U.S. phone numbers should not be displayed */
-    const filteredResults = results.filter(r => (r.number.replace(/[^\d]/g, "")).length === 10 );
+    const filteredResults = filtered.filter(r => (r.number.replace(/[^\d]/g, "")).length === 10 );
     return (
-      <div>
+      <div className="search-bar-container">
         <style jsx>{`
-          @keyframes slideInFromLeft {
-            0% {
-              transform: translateX(-100%);
-            }
-            100% {
-              transform: translateX(0);
-            }
-          }
-          .container {
-            padding: 20px auto;
-            text-align: center;
-          }
-          .profile-container {
-            animation: 1.4s ease-out 0s 1 slideInFromLeft;
-            position: relative;
-            -webkit-box-shadow: 0 5px 10px 0 rgba(0,0,0,0.05);
-            box-shadow: 0 5px 10px 0 rgba(0,0,0,0.05);
-            overflow: hidden;
-            width: 250px;
-            background-color: white;
-            min-height: 100%;
-            margin: 20px;
-            display: inline-block;
-          }
-          h2, p {
-            text-transform: uppercase;
-            font-weight: normal;
-            font-size: 13px;
-            line-height: 20px;
-            color: #000;
-            letter-spacing: 1.5px;
-            margin: 0;
-            padding: 0;
-          }
-          .bio-text {
-            font-size: 13px;
-            width: 65%;
-            padding-left: 8px;
-          }
-          .flip-card-inner {
-            position: relative;
-            width: 100%;
-            min-height: 310px;
-            text-align: center;
-            transition: transform 0.8s;
-            transform-style: preserve-3d;
-          }
-          
-          /* Do an horizontal flip when you move the mouse over the flip box container */
-          .profile-container:hover .flip-card-inner {
-            transform: rotateY(180deg);
-          }
-          
-          /* Position the front and back side */
-          .flip-card-front, .flip-card-back {
-            flex-direction: column;
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            backface-visibility: hidden;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-          }   
-          .flip-card-back {
-            padding: 0px;
-            transform: rotateY(180deg);
-          }
-          .text-container {
-            padding: 10px;
-          }
-          .number-container {
-            border-bottom: 2px solid #FF3600;
-            letter-spacing: 1.5px;
-            font-weight: 600;
-            color: #000;
-            padding-bottom: 4px;
-          }
+        
         `}</style>
+        <form onSubmit={this.submit} method="get" autoComplete="off">
+          <input
+            id="search-bar"
+            type="text"
+            name="q"
+            placeholder={"Who are you looking for?"}
+            onChange={this.search}
+          />
+          <button
+            type="submit"
+            value="Submit"
+            disabled={!this.state.searchTerm || this.state.searchTerm.length == 0} >
+            <div className="search-icon">
+              <img src={searchIcon} />
+            </div>
+          </button>
+        </form>
         <div className="container">
         {!isLoaded && <div>Loading...</div>}
         {error && <div>Error: {error.message}</div>}

@@ -76,8 +76,7 @@ class Profile extends React.Component {
             }
           }
           .container {
-            padding-top: 20px;
-            padding-bottom: 20px;
+            padding: 20px auto;
             text-align: center;
           }
           .profile-container {

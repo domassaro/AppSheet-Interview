@@ -54,14 +54,11 @@ class Profile extends React.Component {
   }
 
   render() {
-    const { error, isLoaded, results, filtered } = this.state;
+    const { error, isLoaded, filtered } = this.state;
     /* Profiles without valid U.S. phone numbers should not be displayed */
     const filteredResults = filtered.filter(r => (r.number.replace(/[^\d]/g, "")).length === 10 );
     return (
       <div className="search-bar-container">
-        <style jsx>{`
-        
-        `}</style>
         <form onSubmit={this.submit} method="get" autoComplete="off">
           <input
             id="search-bar"
@@ -73,9 +70,9 @@ class Profile extends React.Component {
           <button
             type="submit"
             value="Submit"
-            disabled={!this.state.searchTerm || this.state.searchTerm.length == 0} >
+            disabled={!this.state.searchTerm || this.state.searchTerm.length === 0} >
             <div className="search-icon">
-              <img src={searchIcon} />
+              <img src={searchIcon} alt=""/>
             </div>
           </button>
         </form>
@@ -85,7 +82,7 @@ class Profile extends React.Component {
           {isLoaded && !error && filteredResults.map(result => (<div key={result} className="profile-container">
             {<div className="flip-card-inner">
               <div className="flip-card-front">
-                <img onError={this.addDefaultSrc} src={result.photo} width="250px" height="250px" alt="Photo" />
+                <img onError={this.addDefaultSrc} src={result.photo} width="250px" height="250px" alt="" />
                 <div className="text-container">
                   <h2>{result.name.toUpperCase()}, {result.age}</h2>
                   <p className="number-container">{result.number}</p>

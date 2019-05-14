@@ -65,15 +65,7 @@ class App extends Component {
   render() {
     return (
       <div>
-        <style jsx>{`
-          .container {
-            height: 100%;
-            overflow: hidden;
-            max-width: 80%;
-            margin: 20px auto;
-          }
-        `}</style>
-        <div className="container">
+        <div className="app-container">
           <Profile 
             results={this.state.results}/>
         </div>

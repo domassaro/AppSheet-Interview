@@ -25,6 +25,13 @@
     transform: translateX(0);
   }
 }
+.no-results-container, .loading-container {
+  margin: 60px auto;
+  font-weight: bold;
+  font-size: 54px;
+  line-height: 45px;
+  letter-spacing: 1.5px;
+}
 .search-bar-container {
   position: relative;
   width: 100%;

@@ -8,7 +8,6 @@ class Profile extends React.Component {
     this.state = {
       results: this.props.results,
       filtered: this.props.results,
-      isLoaded: false,
       searchTerm: null
     };
     this.search = this.search.bind(this);
@@ -16,8 +15,7 @@ class Profile extends React.Component {
 
   async componentDidMount() {
     this.setState ({
-      filtered: this.props.results,
-      isLoaded: true
+      filtered: this.props.results
     });
   }  
 
@@ -54,7 +52,8 @@ class Profile extends React.Component {
   }
 
   render() {
-    const { error, isLoaded, filtered } = this.state;
+    const { error, filtered } = this.state;
+    let isLoaded = this.props.isLoaded;
     /* Profiles without valid U.S. phone numbers should not be displayed */
     const filteredResults = filtered.filter(r => (r.number.replace(/[^\d]/g, "")).length === 10 );
     return (
@@ -77,7 +76,7 @@ class Profile extends React.Component {
           </button>
         </form>
         <div className="container">
-        {!isLoaded && <div>Loading...</div>}
+        {!isLoaded && <div className="loading-container">Loading...</div>}
         {error && <div>Error: {error.message}</div>}
           {isLoaded && !error && filteredResults.map(result => (<div key={result} className="profile-container">
             {<div className="flip-card-inner">
@@ -95,6 +94,9 @@ class Profile extends React.Component {
               </div>
             </div>}
           </div>))}
+          {isLoaded && filteredResults.length === 0 && <div className="no-results-container">
+            Darn! No results founds!
+          </div>}
         </div>
       </div>
     );

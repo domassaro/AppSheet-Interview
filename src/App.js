@@ -7,7 +7,8 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      results: []
+      results: [],
+      isLoaded: false
     };
   }
 
@@ -67,7 +68,8 @@ class App extends Component {
       <div>
         <div className="app-container">
           <Profile 
-            results={this.state.results}/>
+            results={this.state.results}
+            isLoaded={this.state.isLoaded} />
         </div>
       </div>
     );

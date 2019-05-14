@@ -63,7 +63,7 @@ class Profile extends React.Component {
   render() {
     const { error, isLoaded, results } = this.state;
     /* Profiles without valid U.S. phone numbers should not be displayed */
-    const filteredResults = results.filter(r => r.number.length > 4 );
+    const filteredResults = results.filter(r => (r.number.replace(/[^\d]/g, "")).length === 10 );
     return (
       <div>
         <style jsx>{`
@@ -86,11 +86,10 @@ class Profile extends React.Component {
             -webkit-box-shadow: 0 5px 10px 0 rgba(0,0,0,0.05);
             box-shadow: 0 5px 10px 0 rgba(0,0,0,0.05);
             overflow: hidden;
-            width: 350px;
-            padding: 15px;
+            width: 250px;
             background-color: white;
-            height: 100%;
-            margin: 10px;
+            min-height: 100%;
+            margin: 20px;
             display: inline-block;
           }
           h2, p {
@@ -111,7 +110,7 @@ class Profile extends React.Component {
           .flip-card-inner {
             position: relative;
             width: 100%;
-            min-height: 250px;
+            min-height: 310px;
             text-align: center;
             transition: transform 0.8s;
             transform-style: preserve-3d;
@@ -124,6 +123,7 @@ class Profile extends React.Component {
           
           /* Position the front and back side */
           .flip-card-front, .flip-card-back {
+            flex-direction: column;
             position: absolute;
             width: 100%;
             height: 100%;
@@ -133,7 +133,18 @@ class Profile extends React.Component {
             align-items: center;
           }   
           .flip-card-back {
+            padding: 0px;
             transform: rotateY(180deg);
+          }
+          .text-container {
+            padding: 10px;
+          }
+          .number-container {
+            border-bottom: 2px solid #FF3600;
+            letter-spacing: 1.5px;
+            font-weight: 600;
+            color: #000;
+            padding-bottom: 4px;
           }
         `}</style>
         <div className="container">
@@ -143,13 +154,12 @@ class Profile extends React.Component {
             {<div className="flip-card-inner">
               <div className="flip-card-front">
                 <img src={result.photo} width="250px" height="250px" alt="Photo" />
+                <div className="text-container">
+                  <h2>{result.name.toUpperCase()}, {result.age}</h2>
+                  <p className="number-container">{result.number}</p>
+                </div>
               </div>
               <div className="flip-card-back">
-                <div>
-                  <h2>{result.name.toUpperCase()}</h2>
-                  <p>{result.age}</p>
-                  <p>{result.number}</p>
-                </div>
                 <div className="bio-text">
                   {result.bio}
                 </div>

@@ -67,7 +67,7 @@ class SearchBar extends React.Component {
               letter-spacing: 0;
             }
             button[type="submit"]:hover {
-              background-color: #578c31;
+              background-color: #c22900;
             }
             button[type="submit"] {
               border: none;
@@ -77,7 +77,7 @@ class SearchBar extends React.Component {
               width: 43px;
               height: 43px;
               border-radius: 0 2px 2px 0;
-              background-color: #77be43;
+              background-color: #FF3600;
               line-height: 42px;
               text-align: center;
             }
@@ -96,8 +96,8 @@ class SearchBar extends React.Component {
                 font-size: 18px;
               }
               button[type="submit"] {
-                width: 54px;
-                height: 54px;
+                width: 53px;
+                height: 53px;
                 line-height: 64px;
               }
               .search-icon img {

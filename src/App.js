@@ -17,11 +17,12 @@ class App extends Component {
         <div>
           <style jsx>{`
             .container {
-              height: 100%;
+              height: 100%;              
             }
             .search-bar-wrapper {
               overflow: hidden;
-              margin: 20px 60px;
+              max-width: 80%;
+              margin: 20px auto;
             }
           `}</style>
 

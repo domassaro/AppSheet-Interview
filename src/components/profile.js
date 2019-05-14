@@ -65,19 +65,22 @@ class Profile extends React.Component {
             name="q"
             placeholder={"Who are you looking for?"}
             onChange={this.search}
+            disabled={!isLoaded}
           />
           <button
             type="submit"
             value="Submit"
-            disabled={!this.state.searchTerm || this.state.searchTerm.length === 0} >
+            disabled={!isLoaded} >
             <div className="search-icon">
               <img src={searchIcon} alt=""/>
             </div>
           </button>
         </form>
         <div className="container">
+        {/* Loading message until all API calls are done */}
         {!isLoaded && <div className="loading-container">Loading...</div>}
         {error && <div>Error: {error.message}</div>}
+        {/* Load results once all API calls are done */}
           {isLoaded && !error && filteredResults.map(result => (<div key={result} className="profile-container">
             {<div className="flip-card-inner">
               <div className="flip-card-front">
